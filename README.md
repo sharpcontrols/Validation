@@ -11,6 +11,28 @@
 - not_equal:{VALUE} - The field must not be equal to VALUE (Only use an integer value for this, due to floating point errors)
 
 
+## Validations for Datetimes
+- future - The field must be in the future
+- future_date - The date of the field must be in the future (Ignores Time)
+- past - The field must be in the past
+- past_date - The date of the field must be in the past (Ignores Time)
+- now - The field must be now
+- today - The date of the field must be today
+- this_month - The month of the date must be the current month
+- this_year - The year of the date must be the current year
+- max:{VALUE} - The field must be at maximum VALUE datetime
+- min:{VALUE} - The field must be at least VALUE datetime
+- before:{VALUE} - The field must be before VALUE
+- after:{VALUE} - The field must be after VALUE
+- between:{VALUE1},{VALUE2} - The field must be between VALUE1 and VALUE2
+- month:{VALUE} - The month of the field must be VALUE
+- year:{VALUE} - The year of the field must be VALUE
+- equal:{VALUE} - The field must be equal to VALUE
+- not_equal:{VALUE} - The field must not be equal to VALUE
+- equal_date:{VALUE} - The date of the field must be equal to VALUE
+- not_equal_date:{VALUE} - The date of the field must not be equal to VALUE
+
+
 ## Validations for Strings
 - required - The field must not be null or empty
 - accepted - The field must be "true", "1" or "yes"

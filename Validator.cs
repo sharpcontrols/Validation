@@ -38,32 +38,126 @@ namespace SharpControls.Validation
             //EXTENDED VALIDATIONS
             if (validation.StartsWith("max:"))
             {
-                float max = float.Parse(validation.ReplaceFirst("max:", ""));
+                float max = float.Parse(validation.ReplaceFirst("max:"));
                 return obj <= max;
             }
             else if (validation.StartsWith("min:"))
             {
-                float min = float.Parse(validation.ReplaceFirst("min:", ""));
+                float min = float.Parse(validation.ReplaceFirst("min:"));
                 return obj >= min;
             }
             else if (validation.StartsWith("between:"))
             {
-                var splitted = validation.ReplaceFirst("between:", "").Split(',');
+                var splitted = validation.ReplaceFirst("between:").Split(',');
                 float from = float.Parse(splitted[0]);
                 float to = float.Parse(splitted[1]);
                 return obj >= from && obj <= to;
             }
             else if (validation.StartsWith("equal:"))
             {
-                int nbr = int.Parse(validation.ReplaceFirst("equal:", ""));
+                int nbr = int.Parse(validation.ReplaceFirst("equal:"));
                 return obj == nbr;
             }
             else if (validation.StartsWith("not_equal:"))
             {
-                int nbr = int.Parse(validation.ReplaceFirst("not_equal:", ""));
+                int nbr = int.Parse(validation.ReplaceFirst("not_equal:"));
                 return obj != nbr;
             }
-            return false;
+
+            throw new Exception("Invalid validation " + validation);
+        }
+        #endregion
+
+        #region DATE VALIDATIONS
+        public static bool Validate(DateTime obj, string validations)
+        {
+            return Validate(obj, validations.Split('|'));
+        }
+
+        public static bool Validate(DateTime obj, params string[] validations)
+        {
+            foreach (string validation in validations)
+            {
+                if (!ValidateDateTime(obj, validation))
+                    return false;
+            }
+            return true;
+        }
+
+        public static bool ValidateDateTime(DateTime obj, string validation)
+        {
+            //SIMPLE VALIDATIONS
+            switch (validation)
+            {
+                case "future":
+                    return obj > DateTime.Now;
+                case "future_date":     
+                    return obj.Date > DateTime.Now.Date;
+                case "past":
+                    return obj < DateTime.Now;
+                case "past_date":
+                    return obj.Date < DateTime.Now.Date;
+                case "now":
+                    return obj == DateTime.Now;
+                case "today":
+                    return obj.Date == DateTime.Now.Date;
+                case "this_month":
+                    return obj.Month == DateTime.Now.Month;
+                case "this_year":
+                    return obj.Year == DateTime.Now.Year;
+
+            }
+
+            //EXTENDED VALIDATIONS
+            if (validation.StartsWith("before:"))
+            {
+                DateTime max = DateTime.Parse(validation.ReplaceFirst("max:"));
+                return obj <= max;
+            }
+            else if (validation.StartsWith("after:"))
+            {
+                DateTime min = DateTime.Parse(validation.ReplaceFirst("min:"));
+                return obj >= min;
+            }
+            else if (validation.StartsWith("between:"))
+            {
+                var splitted = validation.ReplaceFirst("between:").Split(',');
+                DateTime from = DateTime.Parse(splitted[0]);
+                DateTime to = DateTime.Parse(splitted[1]);
+                return obj >= from && obj <= to;
+            }
+            else if (validation.StartsWith("month:"))
+            {
+                int month = int.Parse(validation.ReplaceFirst("month:"));
+                return obj.Month == month;
+            }
+            else if (validation.StartsWith("year:"))
+            {
+                int year = int.Parse(validation.ReplaceFirst("year:"));
+                return obj.Year == year;
+            }
+            else if (validation.StartsWith("equal:"))
+            {
+                DateTime dtE = DateTime.Parse(validation.ReplaceFirst("equal:"));
+                return obj == dtE;
+            }
+            else if (validation.StartsWith("not_equal:"))
+            {
+                DateTime dtE = DateTime.Parse(validation.ReplaceFirst("not_equal:"));
+                return obj != dtE;
+            }
+            else if (validation.StartsWith("equal_date:"))
+            {
+                DateTime dtE = DateTime.Parse(validation.ReplaceFirst("equal_date:"));
+                return obj.Date == dtE.Date;
+            }
+            else if (validation.StartsWith("not_equal_date:"))
+            {
+                DateTime dtE = DateTime.Parse(validation.ReplaceFirst("not_equal_date:"));
+                return obj.Date != dtE.Date;
+            }
+
+            throw new Exception("Invalid validation " + validation);
         }
         #endregion
 
@@ -141,69 +235,69 @@ namespace SharpControls.Validation
             //EXTENDED VALIDATIONS
             if (validation.StartsWith("max:"))
             {
-                int maxL = int.Parse(validation.ReplaceFirst("max:", ""));
+                int maxL = int.Parse(validation.ReplaceFirst("max:"));
                 return obj.Length <= maxL;
             }
             else if (validation.StartsWith("min:"))
             {
-                int minL = int.Parse(validation.ReplaceFirst("min:", ""));
+                int minL = int.Parse(validation.ReplaceFirst("min:"));
                 return obj.Length >= minL;
             }
             else if (validation.StartsWith("len:"))
             {
-                int length = int.Parse(validation.ReplaceFirst("len:", ""));
+                int length = int.Parse(validation.ReplaceFirst("len:"));
                 return obj.Length == length;
             }
             else if (validation.StartsWith("between:"))
             {
-                var splitted = validation.ReplaceFirst("between:", "").Split(',');
+                var splitted = validation.ReplaceFirst("between:").Split(',');
                 int from = int.Parse(splitted[0]);
                 int to = int.Parse(splitted[1]);
                 return obj.Length >= from && obj.Length <= to;
             }
             else if (validation.StartsWith("phone:"))
             {
-                string country = validation.ReplaceFirst("phone:", "");
+                string country = validation.ReplaceFirst("phone:");
                 return Phone.Validate(obj, country);
             }
             else if (validation.StartsWith("cellphone:"))
             {
-                string country = validation.ReplaceFirst("phone:", "");
+                string country = validation.ReplaceFirst("cellphone:");
                 return Phone.Validate(obj, country, Phone.PhoneType.Cellphone);
             }
             else if (validation.StartsWith("landline:"))
             {
-                string country = validation.ReplaceFirst("phone:", "");
+                string country = validation.ReplaceFirst("landline:");
                 return Phone.Validate(obj, country, Phone.PhoneType.Landline);
             }
             else if (validation.StartsWith("starts_with:"))
             {
-                string str = validation.ReplaceFirst("starts_with:", "");
+                string str = validation.ReplaceFirst("starts_with:");
                 return obj.StartsWith(str);
             }
             else if (validation.StartsWith("ends_with:"))
             {
-                string str = validation.ReplaceFirst("ends_with:", "");
+                string str = validation.ReplaceFirst("ends_with:");
                 return obj.EndsWith(str);
             }
             else if (validation.StartsWith("contains:"))
             {
-                string str = validation.ReplaceFirst("contains:", "");
+                string str = validation.ReplaceFirst("contains:");
                 return obj.Contains(str);
             }
             else if (validation.StartsWith("like:"))
             {
-                string str = validation.ReplaceFirst("like:", "");
+                string str = validation.ReplaceFirst("like:");
                 return obj.Like(str);
             }
             else if (validation.StartsWith("equal:"))
             {
-                string str = validation.ReplaceFirst("equal:", "");
+                string str = validation.ReplaceFirst("equal:");
                 return obj == str;
             }
             else if (validation.StartsWith("not_equal:"))
             {
-                string str = validation.ReplaceFirst("not_equal:", "");
+                string str = validation.ReplaceFirst("not_equal:");
                 return obj != str;
             }
             throw new Exception("Invalid validation " + validation);

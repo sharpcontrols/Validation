@@ -16,8 +16,10 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <RootNamespace>SharpControls.Validation</RootNamespace>
     <PackageProjectUrl>https://github.com/sharpcontrols/Validation</PackageProjectUrl>
-    <Version>1.0.1</Version>
-    <PackageReleaseNotes>* Added numeric validations</PackageReleaseNotes>
+    <Version>1.0.2</Version>
+    <PackageReleaseNotes>* Added datetime validations
+* Updated SharpControls.Utils library to v1.0.3
+* Minor fixes</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
@@ -32,7 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="SharpControls.Utils" Version="1.0.2" />
+    <PackageReference Include="SharpControls.Utils" Version="1.0.3" />
   </ItemGroup>
 
 </Project>
