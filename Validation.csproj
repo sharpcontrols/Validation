@@ -16,6 +16,8 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <RootNamespace>SharpControls.Validation</RootNamespace>
     <PackageProjectUrl>https://github.com/sharpcontrols/Validation</PackageProjectUrl>
+    <Version>1.0.1</Version>
+    <PackageReleaseNotes>* Added numeric validations</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

@@ -6,6 +6,68 @@ namespace SharpControls.Validation
 {
     public static class Validator
     {
+        #region NUMERIC VALIDATIONS
+        public static bool Validate(float obj, string validations)
+        {
+            return Validate(obj, validations.Split('|'));
+        }
+
+        public static bool Validate(float obj, params string[] validations)
+        {
+            foreach (string validation in validations)
+            {
+                if (!ValidateNumbers(obj, validation))
+                    return false;
+            }
+            return true;
+        }
+
+        public static bool ValidateNumbers(float? obj, string validation)
+        {
+            //SIMPLE VALIDATIONS
+            switch (validation)
+            {
+                case "required":
+                    return obj != null;
+                case "positive":
+                    return obj > 0;
+                case "negative":
+                    return obj < 0;
+            }
+
+            //EXTENDED VALIDATIONS
+            if (validation.StartsWith("max:"))
+            {
+                float max = float.Parse(validation.ReplaceFirst("max:", ""));
+                return obj <= max;
+            }
+            else if (validation.StartsWith("min:"))
+            {
+                float min = float.Parse(validation.ReplaceFirst("min:", ""));
+                return obj >= min;
+            }
+            else if (validation.StartsWith("between:"))
+            {
+                var splitted = validation.ReplaceFirst("between:", "").Split(',');
+                float from = float.Parse(splitted[0]);
+                float to = float.Parse(splitted[1]);
+                return obj >= from && obj <= to;
+            }
+            else if (validation.StartsWith("equal:"))
+            {
+                int nbr = int.Parse(validation.ReplaceFirst("equal:", ""));
+                return obj == nbr;
+            }
+            else if (validation.StartsWith("not_equal:"))
+            {
+                int nbr = int.Parse(validation.ReplaceFirst("not_equal:", ""));
+                return obj != nbr;
+            }
+            return false;
+        }
+        #endregion
+
+        #region STRING VALIDATIONS
         public static bool Validate(string obj, string validations)
         {
             return Validate(obj, validations.Split('|'));
@@ -72,6 +134,8 @@ namespace SharpControls.Validation
                     return Simple.UrlFile(obj);
                 case "url_mailto":
                     return Simple.UrlMailto(obj);
+                case "datetime":
+                    return DateTime.TryParse(obj, out _);
             }
 
             //EXTENDED VALIDATIONS
@@ -132,17 +196,18 @@ namespace SharpControls.Validation
                 string str = validation.ReplaceFirst("like:", "");
                 return obj.Like(str);
             }
-            else if (validation.StartsWith("same:"))
+            else if (validation.StartsWith("equal:"))
             {
-                string str = validation.ReplaceFirst("same:", "");
+                string str = validation.ReplaceFirst("equal:", "");
                 return obj == str;
             }
-            else if (validation.StartsWith("not_same:"))
+            else if (validation.StartsWith("not_equal:"))
             {
-                string str = validation.ReplaceFirst("same:", "");
+                string str = validation.ReplaceFirst("not_equal:", "");
                 return obj != str;
             }
             throw new Exception("Invalid validation " + validation);
         }
+        #endregion
     }
 }
