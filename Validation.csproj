@@ -15,6 +15,7 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <RootNamespace>SharpControls.Validation</RootNamespace>
+    <PackageProjectUrl>https://github.com/sharpcontrols/Validation</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="SharpControls.Utils" Version="1.0.1" />
+    <PackageReference Include="SharpControls.Utils" Version="1.0.2" />
   </ItemGroup>
 
 </Project>
