@@ -15,7 +15,7 @@ namespace SharpControls.Validation
         [GeneratedRegex("[^a-zA-Z]")]
         internal static partial Regex OnlyAlpha();
 
-        [GeneratedRegex("[^a-zA-Z-]")]
+        [GeneratedRegex("[^a-zA-Z-_]")]
         internal static partial Regex OnlyAlphaDash();
     }
 }

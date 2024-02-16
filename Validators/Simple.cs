@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -147,6 +148,73 @@ namespace SharpControls.Validation.Validators
                 rest = 11 - rest;
 
             return pis.EndsWith(rest.ToString());
+        }
+
+        internal static bool IPv4(string ip)
+        {
+            if (IPAddress.TryParse(ip, out IPAddress? address))
+            {
+                switch (address.AddressFamily)
+                {
+                    case System.Net.Sockets.AddressFamily.InterNetwork:
+                        return true;
+                }
+            }
+            return false;
+        }
+
+        internal static bool IPv6(string ip)
+        {
+            if (IPAddress.TryParse(ip, out IPAddress? address))
+            {
+                switch (address.AddressFamily)
+                {
+                    case System.Net.Sockets.AddressFamily.InterNetworkV6:
+                        return true;
+
+                }
+            }
+            return false;
+        }
+
+        internal static bool Url(string url)   
+        {
+            return Uri.TryCreate(url, UriKind.Absolute, out Uri? uriResult) && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+        }
+
+        internal static bool UrlHttp(string url)
+        {
+            return Uri.TryCreate(url, UriKind.Absolute, out Uri? uriResult) && (uriResult.Scheme == Uri.UriSchemeHttp);
+        }
+
+        internal static bool UrlHttps(string url)
+        {
+            return Uri.TryCreate(url, UriKind.Absolute, out Uri? uriResult) && (uriResult.Scheme == Uri.UriSchemeHttps);
+        }
+
+        internal static bool UrlFtp(string url)
+        {
+            return Uri.TryCreate(url, UriKind.Absolute, out Uri? uriResult) && (uriResult.Scheme == Uri.UriSchemeFtp);
+        }
+
+        internal static bool UrlFtps(string url)
+        {
+            return Uri.TryCreate(url, UriKind.Absolute, out Uri? uriResult) && (uriResult.Scheme == Uri.UriSchemeFtps);
+        }
+
+        internal static bool UrlSsh(string url)
+        {
+            return Uri.TryCreate(url, UriKind.Absolute, out Uri? uriResult) && (uriResult.Scheme == Uri.UriSchemeSsh);
+        }
+
+        internal static bool UrlFile(string url)
+        {
+            return Uri.TryCreate(url, UriKind.Absolute, out Uri? uriResult) && (uriResult.Scheme == Uri.UriSchemeFile);
+        }
+
+        internal static bool UrlMailto(string url)
+        {
+            return Uri.TryCreate(url, UriKind.Absolute, out Uri? uriResult) && (uriResult.Scheme == Uri.UriSchemeMailto);
         }
     }
 }
